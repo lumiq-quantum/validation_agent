@@ -3,7 +3,7 @@ from google.adk.agents.llm_agent import Agent
 from google.adk.a2a.utils.agent_to_a2a import to_a2a
 from a2a.types import AgentCard
 
-INSTRUCTION_API_URL = "http://65.2.95.54:8000/api/v1/workflows/fdbb1652-5e6b-40bf-8002-4b3b7ee664f5/guideline"
+INSTRUCTION_API_URL = "http://65.2.95.54:8000/api/v1/workflows/by-name/Validator%20Workflow/guideline"
 
 
 JSON_OUTPUT_DIRECTIVE = """
