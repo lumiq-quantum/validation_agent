@@ -6,14 +6,33 @@ from a2a.types import AgentCard
 INSTRUCTION_API_URL = "http://65.2.95.54:8000/api/v1/workflows/fdbb1652-5e6b-40bf-8002-4b3b7ee664f5/guideline"
 
 
+JSON_OUTPUT_DIRECTIVE = """
+
+IMPORTANT: You MUST respond with a single valid JSON object only. No markdown, no explanation, no extra text.
+Your response must be a JSON object with the following structure:
+{
+  "validation_results": [
+    {
+      "rule": "<rule name>",
+      "status": "pass" | "fail" | "skipped",
+      "message": "<details>"
+    }
+  ],
+  "overall_status": "approved" | "rejected" | "review_required",
+  "summary": "<brief summary>"
+}
+"""
+
+
 def fetch_instruction(context):
     """Fetch agent instruction from the guideline API at invocation time."""
     try:
         response = requests.get(INSTRUCTION_API_URL, timeout=5)
         response.raise_for_status()
-        return response.json().get("guideline", "Answer user questions to the best of your knowledge")
+        guideline = response.json().get("guideline", "Answer user questions to the best of your knowledge")
+        return guideline + JSON_OUTPUT_DIRECTIVE
     except requests.RequestException:
-        return "Answer user questions to the best of your knowledge"
+        return "Answer user questions to the best of your knowledge" + JSON_OUTPUT_DIRECTIVE
 
 
 root_agent = Agent(
@@ -32,7 +51,7 @@ agent_card = AgentCard(
     capabilities={},
     skills=[],
     defaultInputModes=["text/plain"],
-    defaultOutputModes=["text/plain"],
+    defaultOutputModes=["application/json"],
     supportsAuthenticatedExtendedCard=False,
 )
 
