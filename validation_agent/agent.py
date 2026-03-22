@@ -3,7 +3,7 @@ from google.adk.agents.llm_agent import Agent
 from google.adk.a2a.utils.agent_to_a2a import to_a2a
 from a2a.types import AgentCard
 
-INSTRUCTION_API_URL = "http://65.2.95.54:8000/api/v1/workflows/b300e7b8-0dc1-49f5-abdd-9fe60b04a728/guideline"
+INSTRUCTION_API_URL = "http://65.2.95.54:8000/api/v1/workflows/fdbb1652-5e6b-40bf-8002-4b3b7ee664f5/guideline"
 
 
 def fetch_instruction(context):
