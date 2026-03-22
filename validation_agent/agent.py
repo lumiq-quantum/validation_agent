@@ -3,15 +3,15 @@ from google.adk.agents.llm_agent import Agent
 from google.adk.a2a.utils.agent_to_a2a import to_a2a
 from a2a.types import AgentCard
 
-INSTRUCTION_API_URL = "https://your-api.example.com/agent/instruction"
+INSTRUCTION_API_URL = "http://65.2.95.54:8000/api/v1/workflows/b300e7b8-0dc1-49f5-abdd-9fe60b04a728/guideline"
 
 
 def fetch_instruction(context):
-    """Fetch agent instruction from an API at invocation time."""
+    """Fetch agent instruction from the guideline API at invocation time."""
     try:
         response = requests.get(INSTRUCTION_API_URL, timeout=5)
         response.raise_for_status()
-        return response.json().get("instruction", "Answer user questions to the best of your knowledge")
+        return response.json().get("guideline", "Answer user questions to the best of your knowledge")
     except requests.RequestException:
         return "Answer user questions to the best of your knowledge"
 
@@ -27,7 +27,7 @@ root_agent = Agent(
 agent_card = AgentCard(
     name=root_agent.name,
     description=root_agent.description,
-    url="http://localhost:8001",
+    url="https://validation-agent.codeshare.co.in",
     version="1.0.0",
     capabilities={},
     skills=[],
