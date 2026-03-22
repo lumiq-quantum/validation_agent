@@ -1,6 +1,7 @@
 import requests
 from google.adk.agents.llm_agent import Agent
 from google.adk.a2a.utils.agent_to_a2a import to_a2a
+from a2a.types import AgentCard
 
 INSTRUCTION_API_URL = "https://your-api.example.com/agent/instruction"
 
@@ -22,5 +23,18 @@ root_agent = Agent(
     instruction=fetch_instruction,
 )
 
+# Explicit agent card since instruction is a callable (not a static string)
+agent_card = AgentCard(
+    name=root_agent.name,
+    description=root_agent.description,
+    url="http://localhost:8001",
+    version="1.0.0",
+    capabilities={},
+    skills=[],
+    defaultInputModes=["text/plain"],
+    defaultOutputModes=["text/plain"],
+    supportsAuthenticatedExtendedCard=False,
+)
+
 # Expose the agent via A2A protocol
-a2a_app = to_a2a(root_agent, port=8001)
+a2a_app = to_a2a(root_agent, port=8001, agent_card=agent_card)
